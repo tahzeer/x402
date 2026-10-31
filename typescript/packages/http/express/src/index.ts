@@ -333,6 +333,7 @@ export function paymentMiddlewareFromHTTPServer(
             reason: "handler_threw",
             error,
           });
+          res.removeHeader(SETTLEMENT_OVERRIDES_HEADER);
           const existingCacheControl =
             res.getHeader("Cache-Control") != null ? String(res.getHeader("Cache-Control")) : null;
           const failureHeaders = httpServer.createFailurePathSettlementHeaders(

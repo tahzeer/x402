@@ -972,6 +972,7 @@ describe("paymentMiddleware", () => {
       if (error) {
         return;
       }
+      setSettlementOverrides(res, { amount: "32%" });
       throw handlerError;
     });
 
@@ -990,6 +991,8 @@ describe("paymentMiddleware", () => {
     );
     expect(res.setHeader).toHaveBeenCalledWith("PAYMENT-RESPONSE", "before-handler-receipt");
     expect(res.setHeader).toHaveBeenCalledWith("Cache-Control", "private");
+    expect(res.removeHeader).toHaveBeenCalledWith("Settlement-Overrides");
+    expect(res._headers["Settlement-Overrides"]).toBeUndefined();
     expect(next).toHaveBeenCalledWith(handlerError);
   });
 
